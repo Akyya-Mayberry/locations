@@ -12,7 +12,7 @@
         ]
     },
     "rules": {
-        "only-arrow-functions": true,
+        "only-arrow-functions": false,
         "quotemark": [
             true,
             "single"
