@@ -26,6 +26,11 @@ input[type=search], select {
     font-size: 2vmax;
 }
 
+select {
+    max-width: 95%;
+    padding: 10px;
+}
+
 .app-container {
     height: 100%;
     width: 100%;
@@ -35,7 +40,7 @@ input[type=search], select {
 
 .sidebar-section {
     height: 100%;
-    width: 30vw;
+    width: 60vw;
     position: fixed;
     z-index: 10;
     top: 0;

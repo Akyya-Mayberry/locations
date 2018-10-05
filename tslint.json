@@ -17,6 +17,7 @@
             true,
             "single"
         ],
+        "jsx-no-lambda": [false],
         "promise-function-async": true,
         "no-console": false,
         "prefer-for-of": true,

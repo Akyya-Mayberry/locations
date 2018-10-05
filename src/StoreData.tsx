@@ -1,20 +1,27 @@
 const storeData = [
     {
-        key: 4,
+        id: 1,
+        name: 'Parkview Market',
+        address: 'licka st.'
+    },
+    {
+        id: 2,
+        name: 'Val de Cole Liquor Store',
+        address: 'licka st.'
+    },
+    {
+        id: 3,
+        name: 'Haight & Cole Liquors',
+        address: 'licka st.'
+    },
+    {
         id: 4,
-        name: 'Popcorn',
+        name: 'Sunshine Wine & Liquor',
         address: 'licka st.'
     },
     {
-        key: 5,
         id: 5,
-        name: 'Gummy Bears',
-        address: 'licka st.'
-    },
-    {
-        key: 6,
-        id: 6,
-        name: 'Doritos',
+        name: 'Liquid Experience',
         address: 'licka st.'
     }
 ];

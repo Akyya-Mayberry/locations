@@ -11,8 +11,9 @@ interface IProps {
 const Store: React.SFC<IProps> = (props: IProps) => {
     // const { store } = props;
     return (
-        <a>{props.store.name}
+        <a>
             <i className='material-icons'>fastfood</i>
+            {props.store.name}
         </a>
     );
 };
