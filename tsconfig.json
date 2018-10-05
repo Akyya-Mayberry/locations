@@ -14,7 +14,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "importHelpers": true,
+    "noEmitHelpers": false,
+    "importHelpers": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
@@ -28,5 +29,9 @@
     "webpack",
     "jest",
     "src/setupTests.ts"
-  ]
+  ],
+  "types": [
+    "googlemaps",
+    "markerclustererplus"
+],
 }

@@ -9,8 +9,12 @@ interface IProps {
 }
 
 const Store: React.SFC<IProps> = (props: IProps) => {
-    const { store } = props;
-    return (<h1>{store.name}</h1>);
+    // const { store } = props;
+    return (
+        <a>{props.store.name}
+            <i className='material-icons'>fastfood</i>
+        </a>
+    );
 };
 
 export default Store;

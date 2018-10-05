@@ -8,12 +8,16 @@ export interface IProps {
 
 const StoreList: React.SFC<IProps> = (props: IProps) => {
     return (
-        <ul className='store-list'>
-            {props.stores.map((store: any) => {
-                return (<li key={store.id} className='store'>
-                    <Store store={store} /></li>);
-            })}
-        </ul>);
+        <div className='store-list-container'>
+            <ul className='store-list'>
+                {props.stores.map((store: any) => {
+                    return (<li key={store.id} className='store'>
+                        <Store store={store} />
+                        </li>);
+                })}
+            </ul>
+        </div>
+    );
 };
 
 export default StoreList;
