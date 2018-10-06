@@ -1,10 +1,11 @@
 import React from 'react';
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
+import { FogStore } from '../StoreData';
 
 export interface IProps {
-    stores: any[];
-    selectedStoreId: any;
-    selectMarker: any;
+    stores: FogStore[];
+    selectedStoreId: number;
+    selectMarker: (id: number) => void;
 }
 
 const Map = withScriptjs(withGoogleMap((props: IProps) =>
@@ -14,11 +15,13 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
         {props.stores.map((store: any) => {
             return (
                 <Marker
-                    onClick={(e: google.maps.MouseEvent) => props.selectMarker(Number(store.id))}
+                    onClick={() => props.selectMarker(Number(store.id))}
                     key={store.id}
                     position={store.coordinates}
                     defaultAnimation={google.maps.Animation.DROP}
-                    animation={props.selectedStoreId === store.id ? google.maps.Animation.BOUNCE : undefined} />
+                    animation={props.selectedStoreId === store.id
+                        ? google.maps.Animation.BOUNCE : undefined}
+                />
             );
         })}
     </GoogleMap>
