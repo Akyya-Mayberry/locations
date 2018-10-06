@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { IFogStore } from '../StoreData';
 import Store from './Store';
 import './StoreList.css';
 
 export interface IProps {
-    stores: any[];
-    selectStore: any;
+    stores: IFogStore[];
+    selectStore: (id: number) => void;
 }
 
 const StoreList: React.SFC<IProps> = (props: IProps) => {
@@ -12,9 +13,14 @@ const StoreList: React.SFC<IProps> = (props: IProps) => {
         <div className='store-list-container'>
             <ul className='store-list'>
                 {props.stores.map((store: any) => {
-                    return (<li key={store.id} className='store' onClick={(evt) => props.selectStore(Number(store.id))}>
-                        <Store store={store} />
-                        </li>);
+                    return (
+                        <li
+                            key={store.id}
+                            className='store'
+                            onClick={() => props.selectStore(Number(store.id))}>
+                            <Store store={store} />
+                        </li>
+                    );
                 })}
             </ul>
         </div>
