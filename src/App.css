@@ -40,8 +40,8 @@ select {
 
 .sidebar-section {
     height: 100%;
-    width: 60vw;
-    /* width: 0; */
+    /* width: 60vw; */
+    width: 0;
     position: fixed;
     z-index: 10;
     top: 0;

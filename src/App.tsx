@@ -51,9 +51,9 @@ class App extends React.Component {
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
-                    stores={this.state.stores}
+                    stores={this.stores}
                     selectedStoreId={this.state.selectedStoreId}
-                    selectStore={this.filterStores}
+                    selectMarker={this.filterStores}
                 />
             </div>
         );
