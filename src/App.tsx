@@ -2,11 +2,11 @@ import * as React from 'react';
 import './App.css';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
-import { FogStore, FogStores } from './StoreData';
+import { FogStores, IFogStore } from './StoreData';
 
 class App extends React.Component {
 
-    public stores: FogStore[] = FogStores;
+    public stores: IFogStore[] = FogStores;
     public state: any = {
         stores: FogStores,
         selectedStoreId: 0

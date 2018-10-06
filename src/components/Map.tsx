@@ -1,9 +1,9 @@
 import React from 'react';
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
-import { FogStore } from '../StoreData';
+import { IFogStore } from '../StoreData';
 
 export interface IProps {
-    stores: FogStore[];
+    stores: IFogStore[];
     selectedStoreId: number;
     selectMarker: (id: number) => void;
 }
