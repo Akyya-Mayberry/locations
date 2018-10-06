@@ -53,6 +53,7 @@ class App extends React.Component {
                     mapElement={<div style={{ height: `100%` }} />}
                     stores={this.state.stores}
                     selectedStoreId={this.state.selectedStoreId}
+                    selectStore={this.filterStores}
                 />
             </div>
         );
