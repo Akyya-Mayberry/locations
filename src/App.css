@@ -1,28 +1,76 @@
-.App {
-  text-align: center;
+* {
+    box-sizing: border-box;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+body {
+    color: #fff;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+header {
+    font-size: 3.5vmax;
 }
 
-.App-title {
-  font-size: 1.5em;
+hr {
+    height: 1px;
+    color: #fff;
+    border: none;
+    background-color: #fff;
 }
 
-.App-intro {
-  font-size: large;
+input[type=search], select {
+    width: 80%;
+    padding: 1vmax 1.3vmax;
+    margin: 10px auto 5px auto;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 2vmax;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+select {
+    max-width: 95%;
+    padding: 10px;
+}
+
+.app-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: transparent;
+}
+
+.sidebar-section {
+    height: 100%;
+    width: 60vw;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    text-align: center;
+    background-color: rgba(200, 200, 133, 0.5);
+    overflow-x: hidden;
+    padding-top: 40px;
+    transition: 0.5s;
+}
+
+.sidebar-items {
+    height: 100vh;
+}
+
+.filter-button {
+    margin: 3px auto 5px auto;
+    background-color: cadetblue;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 4vw;
+    border-radius: 2px;
+    width: 50%;
+}
+
+.map-section {
+    left: 0;
+    position: absolute;
+    height: 100vh;
+    max-width: 100vh;
+    z-index: -1;
 }
