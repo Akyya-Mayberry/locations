@@ -12,6 +12,10 @@ class App extends React.Component {
         selectedStoreId: 0
     };
 
+    public deselectMarker = () => {
+        this.setState({ stores: this.stores, selectedStoreId: 0 });
+    }
+
     public filterStores = (id: number) => {
         let filteredStores;
 
@@ -63,6 +67,7 @@ class App extends React.Component {
                     stores={this.stores}
                     selectedStoreId={this.state.selectedStoreId}
                     selectMarker={this.filterStores}
+                    deselectMarker={this.deselectMarker}
                 />
             </div>
         );
