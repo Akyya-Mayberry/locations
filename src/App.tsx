@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.css';
+import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
 import { FogStores, IFogStore } from './StoreData';
@@ -39,9 +40,8 @@ class App extends React.Component {
     public render() {
         return (
             <div className='app-container'>
-                <i 
-                onClick={() => this.openSideMenu()} 
-                className='material-icons hamburger-icon'>menu</i>
+                <Hamburger
+                openSideMenu={this.openSideMenu}/>
                 {this.state.isSideMenuOpen
                     && <div
                         id='sidebar-section'
