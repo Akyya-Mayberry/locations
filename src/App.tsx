@@ -9,7 +9,8 @@ class App extends React.Component {
     public stores: IFogStore[] = FogStores;
     public state: any = {
         stores: FogStores,
-        selectedStoreId: 0
+        selectedStoreId: 0,
+        isSideMenuOpen: false
     };
 
     public filterStores = (id: number) => {
@@ -23,34 +24,50 @@ class App extends React.Component {
             filteredStores = this.stores;
         }
 
-        this.setState({ stores: filteredStores, selectedStoreId: id });
+        this.setState(
+            {
+                stores: filteredStores,
+                selectedStoreId: id
+            }
+        );
+    }
+
+    public openSideMenu = () => {
+        this.setState({ isSideMenuOpen: !this.state.isSideMenuOpen });
     }
 
     public render() {
         return (
             <div className='app-container'>
-                <div id='sidebar-section' className='sidebar-section'>
-                    <div className='sidebar-items'>
-                        <header>Store List</header>
-                        <hr />
-                        <select
-                            value={this.state.selectedStoreId}
-                            className='store-filter'
-                            onChange={(evt) => this.filterStores(Number(evt.target.value))}>
-                            <option value={0}>-- all --</option>
-                            {this.stores.map((store: any) => {
-                                return (<option
-                                    className='store-option'
-                                    key={store.id}
-                                    value={store.id}>{store.name}</option>);
-                            })}
-                        </select>
-                        <StoreList
-                            selectStore={this.filterStores}
-                            stores={this.state.stores}
-                        />
+                <i 
+                onClick={() => this.openSideMenu()} 
+                className='material-icons hamburger-icon'>menu</i>
+                {this.state.isSideMenuOpen
+                    && <div
+                        id='sidebar-section'
+                        className='sidebar-section'>
+                        <div className='sidebar-items'>
+                            <header>Store List</header>
+                            <hr />
+                            <select
+                                value={this.state.selectedStoreId}
+                                className='store-filter'
+                                onChange={(evt) => this.filterStores(Number(evt.target.value))}>
+                                <option value={0}>-- all --</option>
+                                {this.stores.map((store: any) => {
+                                    return (<option
+                                        className='store-option'
+                                        key={store.id}
+                                        value={store.id}>{store.name}</option>);
+                                })}
+                            </select>
+                            <StoreList
+                                selectStore={this.filterStores}
+                                stores={this.state.stores}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
                 <Map
                     googleMapURL={`
                     https://maps.googleapis.com/maps/api/js?
