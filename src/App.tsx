@@ -7,11 +7,23 @@ import { FogStores, getStore, IFogStore} from './StoreData';
 
 class App extends React.Component {
 
-    public stores: IFogStore[] = FogStores;
+    public stores: IFogStore[] = [];
     public state: any = {
-        stores: FogStores,
+        stores: [FogStores],
         selectedStoreId: 0
     };
+
+    public componentDidMount() {
+        console.log('mounted');
+        this.stores = FogStores.map((store: IFogStore) => {
+            store.details = {phone: '552-234-2155'};
+            return store;
+        });
+
+        console.log('this is stores: ', this.stores);
+
+        this.setState({stores: this.stores});
+    }
 
     public deselectMarker = () => {
         this.setState({ stores: this.stores, selectedStoreId: 0 });
