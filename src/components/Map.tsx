@@ -26,7 +26,12 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
                     {
                         props.selectedStoreId === store.id &&
                         <InfoWindow onCloseClick={() => props.deselectMarker()}>
-                            <div className='info-window'>{store.name}</div>
+                            <div className='info-window'>
+                            <ul>
+                            <li>{store.name}</li>
+                            <li>{store.phone}</li>
+                            </ul>
+                            </div>
                         </InfoWindow>
                     }
                 </Marker>

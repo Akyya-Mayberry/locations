@@ -1,8 +1,9 @@
 import * as React from 'react';
 import './App.css';
+import yelpSearch from './Clients/Yelp';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
-import { FogStores, IFogStore } from './StoreData';
+import { FogStores, getStore, IFogStore} from './StoreData';
 
 class App extends React.Component {
 
@@ -15,6 +16,20 @@ class App extends React.Component {
     public deselectMarker = () => {
         this.setState({ stores: this.stores, selectedStoreId: 0 });
     }
+
+    public getStoreDetails = async (id: number) => {
+        const store = getStore(id);
+
+        const getDetails = async () => {
+            await yelpSearch(store).then((rsp: any) => {
+                console.log('here is response: ', rsp);
+            }).catch((e: any) => {
+                console.log('yelp api sent an error: ', e);
+            });
+          };
+        
+        getDetails();
+    } 
 
     public filterStores = (id: number) => {
         let filteredStores;
@@ -66,7 +81,7 @@ class App extends React.Component {
                     mapElement={<div style={{ height: `100%` }} />}
                     stores={this.stores}
                     selectedStoreId={this.state.selectedStoreId}
-                    selectMarker={this.filterStores}
+                    selectMarker={this.getStoreDetails}
                     deselectMarker={this.deselectMarker}
                 />
             </div>
