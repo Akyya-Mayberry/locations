@@ -19,4 +19,17 @@ const yelpSearch = async (store: IFogStore) => {
     return data;
 };
 
-export default yelpSearch;
+const yelpSearchFull = async(id: string) => {
+    const headers = new Headers({
+        'Authorization': `Bearer ${YELP_API_KEY}`,
+    });
+
+    const url = `${CORS_PROXY_URL}/${BASE_URL}/businesses/${id}`;
+
+    const rsp = await fetch(url, { headers });
+    const data = await rsp.json();
+
+    return data;
+};
+
+export {yelpSearch, yelpSearchFull};

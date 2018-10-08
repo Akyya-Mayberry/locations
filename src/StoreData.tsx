@@ -5,7 +5,7 @@ interface IFogStore {
     country: string;
     id: number;
     name: string;
-    details: object | null;
+    details: any | null;
     state: string;
     yelpId: string;
     zip: string;

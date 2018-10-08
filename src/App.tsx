@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import yelpSearch from './Clients/Yelp';
+import {yelpSearch, yelpSearchFull} from './Clients/Yelp';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
 import { FogStores, getStore, IFogStore} from './StoreData';
@@ -10,19 +10,45 @@ class App extends React.Component {
     public stores: IFogStore[] = [];
     public state: any = {
         stores: [FogStores],
-        selectedStoreId: 0
+        selectedStoreId: null
     };
 
-    public componentDidMount() {
+    public async componentDidMount() {
         console.log('mounted');
-        this.stores = FogStores.map((store: IFogStore) => {
-            store.details = {phone: '552-234-2155'};
-            return store;
+
+        // Check if it's in cache first or local storage
+        const results = await FogStores.map(async (store: IFogStore) => {
+            const details = await this.getFullDetails(store);
+            return details;
         });
 
-        console.log('this is stores: ', this.stores);
+        Promise.all(results).then((rsp) => {
 
-        this.setState({stores: this.stores});
+            // optionally map over each response detail object 
+            // and assign it to the store
+            this.stores = FogStores.map((store: IFogStore, index: number) => {
+                store.details = rsp[index];
+                return store;
+            });
+
+            this.setState({stores: this.stores});
+        });
+    }
+
+    public async getFullDetails(store: IFogStore) {
+        return await yelpSearchFull(store.yelpId);
+        
+        // .then((rsp: any) => {
+        //     console.log('here is response: ', rsp);
+        //     store.details = rsp;
+        //     return rsp;
+        // }).catch((e: any) => {
+        //     console.log('yelp api sent an error: ', e);
+        // });
+    }
+
+    public selectMarker = (id: number) => {
+        this.setState({selectedStoreId: id});
     }
 
     public deselectMarker = () => {
@@ -93,7 +119,7 @@ class App extends React.Component {
                     mapElement={<div style={{ height: `100%` }} />}
                     stores={this.stores}
                     selectedStoreId={this.state.selectedStoreId}
-                    selectMarker={this.getStoreDetails}
+                    selectMarker={this.selectMarker}
                     deselectMarker={this.deselectMarker}
                 />
             </div>
