@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import {yelpSearch, yelpSearchFull} from './Clients/Yelp';
+import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
 import { FogStores, getStore, IFogStore} from './StoreData';
@@ -10,7 +11,8 @@ class App extends React.Component {
     public stores: IFogStore[] = [];
     public state: any = {
         stores: [FogStores],
-        selectedStoreId: null
+        selectedStoreId: null,
+        isSideMenuOpen: false
     };
 
     public async componentDidMount() {
@@ -80,34 +82,49 @@ class App extends React.Component {
             filteredStores = this.stores;
         }
 
-        this.setState({ stores: filteredStores, selectedStoreId: id });
+        this.setState(
+            {
+                stores: filteredStores,
+                selectedStoreId: id
+            }
+        );
+    }
+
+    public openSideMenu = () => {
+        this.setState({ isSideMenuOpen: !this.state.isSideMenuOpen });
     }
 
     public render() {
         return (
             <div className='app-container'>
-                <div id='sidebar-section' className='sidebar-section'>
-                    <div className='sidebar-items'>
-                        <header>Store List</header>
-                        <hr />
-                        <select
-                            value={this.state.selectedStoreId}
-                            className='store-filter'
-                            onChange={(evt) => this.filterStores(Number(evt.target.value))}>
-                            <option value={0}>-- all --</option>
-                            {this.stores.map((store: any) => {
-                                return (<option
-                                    className='store-option'
-                                    key={store.id}
-                                    value={store.id}>{store.name}</option>);
-                            })}
-                        </select>
-                        <StoreList
-                            selectStore={this.filterStores}
-                            stores={this.state.stores}
-                        />
+                <Hamburger
+                openSideMenu={this.openSideMenu}/>
+                {this.state.isSideMenuOpen
+                    && <div
+                        id='sidebar-section'
+                        className='sidebar-section'>
+                        <div className='sidebar-items'>
+                            <header>Store List</header>
+                            <hr />
+                            <select
+                                value={this.state.selectedStoreId}
+                                className='store-filter'
+                                onChange={(evt) => this.filterStores(Number(evt.target.value))}>
+                                <option value={0}>-- all --</option>
+                                {this.stores.map((store: any) => {
+                                    return (<option
+                                        className='store-option'
+                                        key={store.id}
+                                        value={store.id}>{store.name}</option>);
+                                })}
+                            </select>
+                            <StoreList
+                                selectStore={this.filterStores}
+                                stores={this.state.stores}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
                 <Map
                     googleMapURL={`
                     https://maps.googleapis.com/maps/api/js?

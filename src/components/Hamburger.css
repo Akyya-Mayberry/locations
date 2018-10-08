@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+
+.material-icons.hamburger-icon {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    background-color: #fff;
+    color: #666;
+    text-align: center;
+    border: none;
+    margin: 0 auto;
+    padding: 8px;
+    border-radius: 10%;
+}
