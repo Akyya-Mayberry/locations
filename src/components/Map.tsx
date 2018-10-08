@@ -1,11 +1,13 @@
-import React from 'react';
-import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
+import * as React from 'react';
+import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { IFogStore } from '../StoreData';
+import './Map.css';
 
 export interface IProps {
     stores: IFogStore[];
     selectedStoreId: number;
     selectMarker: (id: number) => void;
+    deselectMarker: () => void;
 }
 
 const Map = withScriptjs(withGoogleMap((props: IProps) =>
@@ -20,8 +22,25 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
                     position={store.coordinates}
                     defaultAnimation={google.maps.Animation.DROP}
                     animation={props.selectedStoreId === store.id
-                        ? google.maps.Animation.BOUNCE : undefined}
-                />
+                        ? google.maps.Animation.BOUNCE : undefined}>
+                    {
+                        props.selectedStoreId === store.id &&
+                        <InfoWindow onCloseClick={() => props.deselectMarker()}>
+                            <div className='info-window'>
+                                <p>{store.name}</p>
+                                <img
+                                    className='map-store-image'
+                                    src={store.details.image_url}
+                                    alt={`Image of liqour store '${store.name}'`} />
+                                <ul className='map-store-details'>
+                                    <li>Phone: {store.details.phone}</li>
+                                    {store.details.is_closed
+                                        && <li>Open: {store.details.is_closed}</li>}
+                                </ul>
+                            </div>
+                        </InfoWindow>
+                    }
+                </Marker>
             );
         })}
     </GoogleMap>

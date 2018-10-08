@@ -1,18 +1,49 @@
 import * as React from 'react';
 import './App.css';
+import {yelpSearchFull} from './Clients/Yelp';
 import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
-import { FogStores, IFogStore } from './StoreData';
+import { FogStores, IFogStore} from './StoreData';
 
 class App extends React.Component {
 
-    public stores: IFogStore[] = FogStores;
+    public stores: IFogStore[] = [];
     public state: any = {
-        stores: FogStores,
-        selectedStoreId: 0,
+        stores: [FogStores],
+        selectedStoreId: null,
         isSideMenuOpen: false
     };
+
+    public async componentDidMount() {
+
+        // Get full store details for info windows
+        const results = await FogStores.map(async (store: IFogStore) => {
+            const details = await this.getFullDetails(store);
+            return details;
+        });
+
+        // When full details are available update stores
+        Promise.all(results).then((rsp) => {
+            this.stores = FogStores.map((store: IFogStore, index: number) => {
+                store.details = rsp[index];
+                return store;
+            });
+            this.setState({stores: this.stores});
+        });
+    }
+
+    public async getFullDetails(store: IFogStore) {
+        return await yelpSearchFull(store.yelpId);
+    }
+
+    public selectMarker = (id: number) => {
+        this.setState({selectedStoreId: id});
+    }
+
+    public deselectMarker = () => {
+        this.setState({ stores: this.stores, selectedStoreId: 0 });
+    }
 
     public filterStores = (id: number) => {
         let filteredStores;
@@ -40,8 +71,12 @@ class App extends React.Component {
     public render() {
         return (
             <div className='app-container'>
+                
+                {/* Hamburger Menu Button */}
                 <Hamburger
                 openSideMenu={this.openSideMenu}/>
+
+                {/* Slideout Side Menu Section */}
                 {this.state.isSideMenuOpen
                     && <div
                         id='sidebar-section'
@@ -49,6 +84,8 @@ class App extends React.Component {
                         <div className='sidebar-items'>
                             <header>Store List</header>
                             <hr />
+
+                            {/* Filter Store  */}
                             <select
                                 value={this.state.selectedStoreId}
                                 className='store-filter'
@@ -61,6 +98,8 @@ class App extends React.Component {
                                         value={store.id}>{store.name}</option>);
                                 })}
                             </select>
+
+                            {/* List of Stores */}
                             <StoreList
                                 selectStore={this.filterStores}
                                 stores={this.state.stores}
@@ -68,6 +107,8 @@ class App extends React.Component {
                         </div>
                     </div>
                 }
+
+                {/* Map Section */}
                 <Map
                     googleMapURL={`
                     https://maps.googleapis.com/maps/api/js?
@@ -79,8 +120,10 @@ class App extends React.Component {
                     mapElement={<div style={{ height: `100%` }} />}
                     stores={this.stores}
                     selectedStoreId={this.state.selectedStoreId}
-                    selectMarker={this.filterStores}
+                    selectMarker={this.selectMarker}
+                    deselectMarker={this.deselectMarker}
                 />
+
             </div>
         );
     }
