@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './App.css';
-import {yelpSearch, yelpSearchFull} from './Clients/Yelp';
+import {yelpSearchFull} from './Clients/Yelp';
 import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
-import { FogStores, getStore, IFogStore} from './StoreData';
+import { FogStores, IFogStore} from './StoreData';
 
 class App extends React.Component {
 
@@ -16,37 +16,25 @@ class App extends React.Component {
     };
 
     public async componentDidMount() {
-        console.log('mounted');
 
-        // Check if it's in cache first or local storage
+        // Get full store details for info windows
         const results = await FogStores.map(async (store: IFogStore) => {
             const details = await this.getFullDetails(store);
             return details;
         });
 
+        // When full details are available update stores
         Promise.all(results).then((rsp) => {
-
-            // optionally map over each response detail object 
-            // and assign it to the store
             this.stores = FogStores.map((store: IFogStore, index: number) => {
                 store.details = rsp[index];
                 return store;
             });
-
             this.setState({stores: this.stores});
         });
     }
 
     public async getFullDetails(store: IFogStore) {
         return await yelpSearchFull(store.yelpId);
-        
-        // .then((rsp: any) => {
-        //     console.log('here is response: ', rsp);
-        //     store.details = rsp;
-        //     return rsp;
-        // }).catch((e: any) => {
-        //     console.log('yelp api sent an error: ', e);
-        // });
     }
 
     public selectMarker = (id: number) => {
@@ -56,20 +44,6 @@ class App extends React.Component {
     public deselectMarker = () => {
         this.setState({ stores: this.stores, selectedStoreId: 0 });
     }
-
-    public getStoreDetails = async (id: number) => {
-        const store = getStore(id);
-
-        const getDetails = async () => {
-            await yelpSearch(store).then((rsp: any) => {
-                console.log('here is response: ', rsp);
-            }).catch((e: any) => {
-                console.log('yelp api sent an error: ', e);
-            });
-          };
-        
-        getDetails();
-    } 
 
     public filterStores = (id: number) => {
         let filteredStores;
@@ -97,8 +71,12 @@ class App extends React.Component {
     public render() {
         return (
             <div className='app-container'>
+                
+                {/* Hamburger Menu Button */}
                 <Hamburger
                 openSideMenu={this.openSideMenu}/>
+
+                {/* Slideout Side Menu Section */}
                 {this.state.isSideMenuOpen
                     && <div
                         id='sidebar-section'
@@ -106,6 +84,8 @@ class App extends React.Component {
                         <div className='sidebar-items'>
                             <header>Store List</header>
                             <hr />
+
+                            {/* Filter Store  */}
                             <select
                                 value={this.state.selectedStoreId}
                                 className='store-filter'
@@ -118,6 +98,8 @@ class App extends React.Component {
                                         value={store.id}>{store.name}</option>);
                                 })}
                             </select>
+
+                            {/* List of Stores */}
                             <StoreList
                                 selectStore={this.filterStores}
                                 stores={this.state.stores}
@@ -125,6 +107,8 @@ class App extends React.Component {
                         </div>
                     </div>
                 }
+
+                {/* Map Section */}
                 <Map
                     googleMapURL={`
                     https://maps.googleapis.com/maps/api/js?
@@ -139,6 +123,7 @@ class App extends React.Component {
                     selectMarker={this.selectMarker}
                     deselectMarker={this.deselectMarker}
                 />
+
             </div>
         );
     }

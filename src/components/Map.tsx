@@ -27,10 +27,15 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
                         props.selectedStoreId === store.id &&
                         <InfoWindow onCloseClick={() => props.deselectMarker()}>
                             <div className='info-window'>
-                                <ul>
-                                    <li>{store.name}</li>
+                                <p>{store.name}</p>
+                                <img
+                                    className='map-store-image'
+                                    src={store.details.image_url}
+                                    alt={`Image of liqour store '${store.name}'`} />
+                                <ul className='map-store-details'>
                                     <li>Phone: {store.details.phone}</li>
-                                    {/* <li>Open: {store.details.is_closed}</li> */}
+                                    {store.details.is_closed
+                                        && <li>Open: {store.details.is_closed}</li>}
                                 </ul>
                             </div>
                         </InfoWindow>
