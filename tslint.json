@@ -37,5 +37,8 @@
         "one-variable-per-declaration": false,
         "no-debugger": false,
         "semicolon": [true, "always", "ignore-interfaces"]
+    },
+    "jsRules": {
+        "no-console": false //Disable for javascript
     }
 }
