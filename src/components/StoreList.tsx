@@ -12,10 +12,10 @@ const StoreList: React.SFC<IProps> = (props: IProps) => {
     return (
         <div className='store-list-container'>
             <ul className='store-list'>
-                {props.stores.map((store: any) => {
+                {props.stores.map((store: any, index: number) => {
                     return (
                         <li
-                            key={store.id}
+                            key={index}
                             className='store'
                             onClick={() => props.selectStore(Number(store.id))}>
                             <Store store={store} />

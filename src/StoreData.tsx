@@ -1,7 +1,7 @@
 interface IFogStore {
     address: string;
     city: string;
-    coordinates: object;
+    coordinates: any;
     country: string;
     id: number;
     name: string;
@@ -36,44 +36,43 @@ const FogStores: IFogStore[] = [
         details: null,
         coordinates: { lat: 37.765563, lng: -122.449688 }
 
+    },
+    {
+        id: 3,
+        yelpId: 'zAX8hd4IUt6T2DHb08YAtA',
+        name: 'Haight & Cole Liquors',
+        address: '1699 Haight St',
+        city: 'San Francisco',
+        state: 'CA',
+        zip: '94117',
+        country: 'us',
+        details: null,
+        coordinates: { lat: 37.769437, lng: -122.450562 }
+    },
+    {
+        id: 4,
+        yelpId: 'swNgwG-BXI0DH6ZvsQ_1YA',
+        name: 'Sunshine Wine & Liquor',
+        address: '1754 Haight St',
+        city: 'San Francisco',
+        state: 'CA',
+        zip: '94117',
+        country: 'us',
+        details: null,
+        coordinates: { lat: 37.769563, lng: -122.451187 }
+    },
+    {
+        id: 5,
+        yelpId: '5cjvn-9WN1i24bK8mKb7Sg',
+        name: 'Liquid Experience',
+        address: '1589 Haight St',
+        city: 'San Francisco',
+        state: 'CA',
+        zip: '94117',
+        country: 'us',
+        details: null,
+        coordinates: { lat: 37.769687, lng: -122.448187 }
     }
-    // ,
-    // {
-    //     id: 3,
-    //     yelpId: 'zAX8hd4IUt6T2DHb08YAtA',
-    //     name: 'Haight & Cole Liquors',
-    //     address: '1699 Haight St',
-    //     city: 'San Francisco',
-    //     state: 'CA',
-    //     zip: '94117',
-    //     country: 'us',
-    //     details: null,
-    //     coordinates: { lat: 37.769437, lng: -122.450562 }
-    // },
-    // {
-    //     id: 4,
-    //     yelpId: 'swNgwG-BXI0DH6ZvsQ_1YA',
-    //     name: 'Sunshine Wine & Liquor',
-    //     address: '1754 Haight St',
-    //     city: 'San Francisco',
-    //     state: 'CA',
-    //     zip: '94117',
-    //     country: 'us',
-    //     details: null,
-    //     coordinates: { lat: 37.769563, lng: -122.451187 }
-    // },
-    // {
-    //     id: 5,
-    //     yelpId: '5cjvn-9WN1i24bK8mKb7Sg',
-    //     name: 'Liquid Experience',
-    //     address: '1589 Haight St',
-    //     city: 'San Francisco',
-    //     state: 'CA',
-    //     zip: '94117',
-    //     country: 'us',
-    //     details: null,
-    //     coordinates: { lat: 37.769687, lng: -122.448187 }
-    // }
 ];
 
 const getStore = (id: number) => {

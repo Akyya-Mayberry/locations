@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import {yelpSearchFull} from './Clients/Yelp';
+import {yelpSearchFull} from './clients/Yelp';
 import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
@@ -30,6 +30,8 @@ class App extends React.Component {
                 return store;
             });
             this.setState({stores: this.stores});
+        }).catch((e) => {
+            console.log('error fetching store data: ', e);
         });
     }
 
@@ -102,7 +104,7 @@ class App extends React.Component {
                             {/* List of Stores */}
                             <StoreList
                                 selectStore={this.filterStores}
-                                stores={this.state.stores}
+                                stores={this.stores}
                             />
                         </div>
                     </div>
