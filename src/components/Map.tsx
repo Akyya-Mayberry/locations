@@ -21,7 +21,9 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
                     key={store.id}
                     position={store.coordinates}
                     defaultAnimation={google.maps.Animation.DROP}
-                    animation={props.selectedStoreId === store.id
+                    animation={props.selectedStoreId === null
+                        ? google.maps.Animation.DROP
+                        : props.selectedStoreId === store.id 
                         ? google.maps.Animation.BOUNCE : undefined}>
                     {
                         props.selectedStoreId === store.id &&
