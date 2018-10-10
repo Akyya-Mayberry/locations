@@ -1,11 +1,7 @@
 import * as React from 'react';
 
 interface IProps {
-    store: {
-        name: string,
-        id: number,
-        key: number
-    }
+    store: any;
 }
 
 const Store: React.SFC<IProps> = (props: IProps) => {

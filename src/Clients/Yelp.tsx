@@ -31,6 +31,7 @@ const yelpSearchFull = async(id: string) => {
 
     const rsp = await fetch(url, { headers });
     const data = await rsp.json();
+    console.log('inside yelp service, this is full search data: ', data);
 
     return data;
 };

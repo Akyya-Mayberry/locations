@@ -14,14 +14,16 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
     <GoogleMap
         defaultZoom={13}
         defaultCenter={{ lat: 37.764438, lng: -122.452312 }}>
-        {props.stores.map((store: any) => {
+        {props.stores.map((store: IFogStore) => {
             return (
                 <Marker
                     onClick={() => props.selectMarker(Number(store.id))}
                     key={store.id}
                     position={store.coordinates}
                     defaultAnimation={google.maps.Animation.DROP}
-                    animation={props.selectedStoreId === store.id
+                    animation={props.selectedStoreId === null
+                        ? google.maps.Animation.DROP
+                        : props.selectedStoreId === store.id 
                         ? google.maps.Animation.BOUNCE : undefined}>
                     {
                         props.selectedStoreId === store.id &&

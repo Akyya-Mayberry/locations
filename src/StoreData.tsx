@@ -1,7 +1,7 @@
 interface IFogStore {
     address: string;
     city: string;
-    coordinates: object;
+    coordinates: any;
     country: string;
     id: number;
     name: string;
