@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './App.css';
-import {yelpSearchFull} from './clients/Yelp';
+import { yelpSearchFull } from './clients/Yelp';
 import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
-import { FogStores, IFogStore} from './StoreData';
+import { FogStores, IFogStore } from './StoreData';
 
 class App extends React.Component {
 
@@ -16,23 +16,35 @@ class App extends React.Component {
     };
 
     public async componentDidMount() {
+        
+        // Grab stores from local storage if present
+        // else check cached storage
+        const cachedStores = this.getCachedLocalStores();
 
-        // Get full store details for info windows
-        const results = await FogStores.map(async (store: IFogStore) => {
-            const details = await this.getFullDetails(store);
-            return details;
-        });
+        if (cachedStores) {
+            console.log('stores are cached: ', cachedStores);
+            this.stores = cachedStores;
+            this.setState({ stores: cachedStores });
+        } else {
 
-        // When full details are available update stores
-        Promise.all(results).then((rsp) => {
-            this.stores = FogStores.map((store: IFogStore, index: number) => {
-                store.details = rsp[index];
-                return store;
+            // Get full store details for info windows
+            const results = await FogStores.map(async (store: IFogStore) => {
+                const details = await this.getFullDetails(store);
+                return details;
             });
-            this.setState({stores: this.stores});
-        }).catch((e) => {
-            console.log('error fetching store data: ', e);
-        });
+
+            // When full details are available update stores
+            Promise.all(results).then((rsp) => {
+                this.stores = FogStores.map((store: IFogStore, index: number) => {
+                    store.details = rsp[index];
+                    return store;
+                });
+                this.setState({ stores: this.stores });
+                this.cacheLocalStores(this.stores);
+            }).catch((e) => {
+                console.log('error fetching store data: ', e);
+            });
+        }
     }
 
     public async getFullDetails(store: IFogStore) {
@@ -40,7 +52,7 @@ class App extends React.Component {
     }
 
     public selectMarker = (id: number) => {
-        this.setState({selectedStoreId: id});
+        this.setState({ selectedStoreId: id });
     }
 
     public deselectMarker = () => {
@@ -66,6 +78,17 @@ class App extends React.Component {
         );
     }
 
+    public getCachedLocalStores = () => {
+        const stores = localStorage.getItem('stores');
+        if (!stores) { return null; }
+
+        return JSON.parse(stores) as IFogStore[];
+    }
+
+    public cacheLocalStores = (stores: IFogStore[]) => {
+        localStorage.setItem('stores', JSON.stringify(stores));
+    }
+
     public openSideMenu = () => {
         this.setState({ isSideMenuOpen: !this.state.isSideMenuOpen });
     }
@@ -73,10 +96,10 @@ class App extends React.Component {
     public render() {
         return (
             <div className='app-container'>
-                
+
                 {/* Hamburger Menu Button */}
                 <Hamburger
-                openSideMenu={this.openSideMenu}/>
+                    openSideMenu={this.openSideMenu} />
 
                 {/* Slideout Side Menu Section */}
                 {this.state.isSideMenuOpen
