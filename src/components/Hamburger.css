@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-.material-icons.hamburger-icon {
+.toggle-side-menu {
     position: fixed;
     top: 10px;
     left: 10px;
@@ -11,7 +11,15 @@
     color: #666;
     text-align: center;
     border: none;
-    margin: 0 auto;
+    width: 30%;
     padding: 8px;
-    border-radius: 10%;
+    border-radius: 1%;
+    font-size: 1em;
+}
+
+.fas.fa-bars {
+    background-color: #fff;
+    color: #666;
+    text-align: center;
+    padding-right: 5px;
 }

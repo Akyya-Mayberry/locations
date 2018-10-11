@@ -90,6 +90,16 @@ class App extends React.Component {
     }
 
     public openSideMenu = () => {
+        // const toggle = document.querySelector('#toggle');
+        // const menu = document.querySelector('#sidebar-section');
+
+        // if (menu!.classList.contains('is-active')) {
+        //     toggle!.setAttribute('aria-expanded', 'false');
+        //     menu!.classList.remove('is-active');
+        //   } else {
+        //     menu!.classList.add('is-active'); 
+        //     toggle!.setAttribute('aria-expanded', 'true');
+        //   }
         this.setState({ isSideMenuOpen: !this.state.isSideMenuOpen });
     }
 
@@ -99,15 +109,16 @@ class App extends React.Component {
 
                 {/* Hamburger Menu Button */}
                 <Hamburger
-                    openSideMenu={this.openSideMenu} />
+                    isSideMenuOpen={this.state.isSideMenuOpen}
+                    openSideMenu={this.openSideMenu}  />
 
                 {/* Slideout Side Menu Section */}
                 {this.state.isSideMenuOpen
                     && <div
                         id='sidebar-section'
-                        className='sidebar-section'>
+                        className={this.state.isSideMenuOpen ? `sidebar-section is-active`: `sidebar-section`}>
                         <div className='sidebar-items'>
-                            <header>Store List</header>
+                            <header className='store-list-header' tabIndex={-1}>Store List</header>
                             <hr />
 
                             {/* Filter Store  */}
