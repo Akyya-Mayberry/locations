@@ -1,0 +1,10 @@
+* {
+    box-sizing: border-box;
+}
+
+.error-boundary {
+    color: #666;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 30px;
+}

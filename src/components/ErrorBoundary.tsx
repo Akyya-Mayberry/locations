@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './ErrorBoundary.css';
 
 const initialState = { hasError: false };
 

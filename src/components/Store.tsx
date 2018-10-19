@@ -5,7 +5,6 @@ interface IProps {
 }
 
 const Store: React.SFC<IProps> = (props: IProps) => {
-    // const { store } = props;
     return (
         <a>
             <i className='material-icons'>fastfood</i>
