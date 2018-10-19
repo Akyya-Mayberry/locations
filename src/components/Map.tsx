@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { IFogStore } from '../StoreData';
+import ErrorBoundary from './ErrorBoundary';
 import './Map.css';
+
 
 export interface IProps {
     stores: IFogStore[];
@@ -16,6 +18,7 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
         defaultCenter={{ lat: 37.764438, lng: -122.452312 }}>
         {props.stores.map((store: IFogStore) => {
             return (
+                <ErrorBoundary key={store.id}>
                 <Marker
                     onClick={() => props.selectMarker(Number(store.id))}
                     key={store.id}
@@ -43,6 +46,7 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
                         </InfoWindow>
                     }
                 </Marker>
+                </ErrorBoundary>
             );
         })}
     </GoogleMap>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import { yelpSearchFull } from './clients/Yelp';
+import ErrorBoundary from './components/ErrorBoundary';
 import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
@@ -12,11 +13,12 @@ class App extends React.Component {
     public state: any = {
         stores: [FogStores],
         selectedStoreId: null,
-        isSideMenuOpen: false
+        isSideMenuOpen: false,
+        hasErrors: false
     };
 
     public async componentDidMount() {
-        
+
         // Grab stores from local storage if present
         // else check cached storage
         const cachedStores = this.getCachedLocalStores();
@@ -42,6 +44,8 @@ class App extends React.Component {
                 this.setState({ stores: this.stores });
                 this.cacheLocalStores(this.stores);
             }).catch((e) => {
+                // throw new Error('failed to fetch stores!!!!');
+                this.setState({hasErrors: true});
                 console.log('error fetching store data: ', e);
             });
         }
@@ -94,63 +98,77 @@ class App extends React.Component {
     }
 
     public render() {
-        return (
-            <div className='app-container'>
+        if (this.state.hasErrors) {
+            return <p className='error-boundary'>Unable to fetch stores.</p>;
+        } else {
+            return (
 
-                {/* Hamburger Menu Button */}
-                <Hamburger
-                    openSideMenu={this.openSideMenu} />
+                <div className='app-container'>
 
-                {/* Slideout Side Menu Section */}
-                {this.state.isSideMenuOpen
-                    && <div
-                        id='sidebar-section'
-                        className='sidebar-section'>
-                        <div className='sidebar-items'>
-                            <header>Store List</header>
-                            <hr />
+                    {/* Hamburger Menu Button */}
+                    <Hamburger
+                        openSideMenu={this.openSideMenu} />
 
-                            {/* Filter Store  */}
-                            <select
-                                value={this.state.selectedStoreId}
-                                className='store-filter'
-                                onChange={(evt) => this.filterStores(Number(evt.target.value))}>
-                                <option value={0}>-- all --</option>
-                                {this.stores.map((store: any) => {
-                                    return (<option
-                                        className='store-option'
-                                        key={store.id}
-                                        value={store.id}>{store.name}</option>);
-                                })}
-                            </select>
+                    {/* Slideout Side Menu Section */}
+                    {this.state.isSideMenuOpen
+                        && <div
+                            id='sidebar-section'
+                            className='sidebar-section'>
+                            <div className='sidebar-items'>
+                                <header>Store List</header>
+                                <hr />
 
-                            {/* List of Stores */}
-                            <StoreList
-                                selectStore={this.filterStores}
-                                stores={this.stores}
-                            />
+                                {/* Filter Store  */}
+                                <ErrorBoundary>
+
+                                    <select
+                                        value={this.state.selectedStoreId}
+                                        className='store-filter'
+                                        onChange={(evt) => this.filterStores(Number(evt.target.value))}>
+                                        <option value={0}>-- all --</option>
+                                        {this.stores.map((store: any) => {
+                                            return (<option
+                                                className='store-option'
+                                                key={store.id}
+                                                value={store.id}>{store.name}</option>);
+                                        })}
+                                    </select>
+                                </ErrorBoundary>
+
+                                {/* List of Stores */}
+                                <ErrorBoundary>
+
+                                    <StoreList
+                                        selectStore={this.filterStores}
+                                        stores={this.stores}
+                                    />
+                                </ErrorBoundary>
+
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
 
-                {/* Map Section */}
-                <Map
-                    googleMapURL={`
+                    {/* Map Section */}
+                    <ErrorBoundary>
+                        <Map
+                            googleMapURL={`
                     https://maps.googleapis.com/maps/api/js?
                     key=AIzaSyDzYuNeeymGaSyKN6z1wtIpgZDpgq-ckTc
                     &v=3.exp&libraries=geometry,drawing,places`
-                    }
-                    loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
-                    stores={this.stores}
-                    selectedStoreId={this.state.selectedStoreId}
-                    selectMarker={this.selectMarker}
-                    deselectMarker={this.deselectMarker}
-                />
+                            }
+                            loadingElement={<div style={{ height: `100%` }} />}
+                            containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
+                            mapElement={<div style={{ height: `100%` }} />}
+                            stores={this.stores}
+                            selectedStoreId={this.state.selectedStoreId}
+                            selectMarker={this.selectMarker}
+                            deselectMarker={this.deselectMarker}
+                        />
+                    </ErrorBoundary>
 
-            </div>
-        );
+                </div>
+            );
+        }
     }
 }
 
