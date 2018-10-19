@@ -15,7 +15,7 @@ const Hamburger: React.SFC<IProps> = (props: IProps) => {
             aria-controls='sidebar-section'
             aria-label='Open Side Menu'>
             <i className='fas fa-bars' />
-            Options
+            MunchySurf
         </button>
     );
 };

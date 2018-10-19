@@ -108,7 +108,6 @@ class App extends React.Component {
                     <Hamburger
                         isSideMenuOpen={this.state.isSideMenuOpen}
                         openSideMenu={this.openSideMenu} />
-
                     {/* Slideout Side Menu Section */}
                     {this.state.isSideMenuOpen
                         && <div

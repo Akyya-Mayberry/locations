@@ -10,13 +10,12 @@ export interface IProps {
 
 const StoreList: React.SFC<IProps> = (props: IProps) => {
     return (
-        <nav tabIndex={-1} aria-labelledby='filtered-stores' className='store-list-container' id='store-list-nav'>
+        <nav aria-labelledby='filtered-stores' className='store-list-container' id='store-list-nav'>
             <h2 id='filtered-stores'>Stores</h2>
             <ul aria-expanded={true} role='menu' className='store-list'>
                 {props.stores.map((store: any, index: number) => {
                     return (
                         <li
-                            tabIndex={0}
                             key={index}
                             className='store'
                             onClick={() => props.selectStore(Number(store.id))}>
