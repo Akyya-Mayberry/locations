@@ -75,16 +75,15 @@ const FogStores: IFogStore[] = [
     }
 ];
 
+/**
+ * Retrieves a store from list of stores
+ * @param {number} id - store to retrieve
+ * @returns IFogstore
+ */
 const getStore = (id: number) => {
     return FogStores.filter((store: IFogStore) => {
         return store.id === id;
     })[0];
 };
 
-const updateStore = (store: IFogStore, update: any) => {
-    const currentStore = getStore(store.id);
-    currentStore.details = update.details;
-};
-
-
-export {getStore, IFogStore, FogStores, updateStore};
+export {getStore, IFogStore, FogStores};

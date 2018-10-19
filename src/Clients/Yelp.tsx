@@ -1,10 +1,19 @@
 import { IFogStore } from '../StoreData';
 
+/* Yelp Fusion API is used to get data about stores.
+ The API doesn't allow clientside flow and therefore
+ a free proxy is being used to initiate requests
+*/
+
 const YELP_API_KEY = 'i9kbq2f2VMgsqW92qwEIRUEJf5LK3jJZ5WsP1LUBGkSwOjNAFeHZIjwHjfAy_le9Z_Zls1rGeM2kzWI_XzwoRyEpB9K7n4XbvFXkXHmhg72rCzfKcuDArD99ZD-5W3Yx';
 const BASE_URL = 'https://api.yelp.com/v3';
 const CORS_PROXY_URL = 'https://cors-anywhere.herokuapp.com';
 
 
+/**
+ * 
+ * @param {IFogstore} store - store to fetch basic details for
+ */
 const yelpSearch = async (store: IFogStore) => {
     const headers = new Headers({
         'Authorization': `Bearer ${YELP_API_KEY}`,
@@ -19,9 +28,13 @@ const yelpSearch = async (store: IFogStore) => {
     return data;
 };
 
-const yelpSearchFull = async(id: string) => {
+/**
+ * 
+ * @param {string} id - yelp id to fetch full details
+ * return any
+ */
+const yelpSearchFull = async (id: string) => {
 
-    // TODO: Setup caching
     // throw new Error('failed to fetch stores!!!!');
     const headers = new Headers({
         'Authorization': `Bearer ${YELP_API_KEY}`,
@@ -31,9 +44,8 @@ const yelpSearchFull = async(id: string) => {
 
     const rsp = await fetch(url, { headers });
     const data = await rsp.json();
-    console.log('inside yelp service, this is full search data: ', data);
 
     return data;
 };
 
-export {yelpSearch, yelpSearchFull};
+export { yelpSearch, yelpSearchFull };
