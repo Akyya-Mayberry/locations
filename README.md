@@ -1,6 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). It uses react-google-maps library for integrating with Google Maps, and Yelp Fusion API for retrieving details about store locations. To work solely client-side with Yelp Fusion API, a free web proxy located at 'https://cors-anywhere.herokuapp.com', is being used.
+# Munchie Surf
+This application displays a list of 5 liqour store locations in Haight Ashbury where you can get munchies/snacks.
 
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). It uses [react-google-maps](https://github.com/tomchentw/react-google-maps) library for integrating with Google Maps, and [Yelp Fusion API](https://www.yelp.com/fusion) for retrieving details about store locations. To work solely client-side with Yelp Fusion API, a free web proxy located at 'https://cors-anywhere.herokuapp.com', is being used.
 
+The application is written in Typescript and uses jsx, so various source files you will notice have a .tsx exetension to reflect this.
+
+## Getting Started
+The below instructions will walk you through setting up and running this application.
 
 For the project to build, **these files must exist with exact filenames**:
 
@@ -42,3 +48,6 @@ By default, the generated project uses the latest version of React.
 You can refer [to the React documentation](https://reactjs.org/docs/react-dom.html#browser-support) for more information about supported browsers.
 
 This particular application is recommended to be used in Google Chrome.
+
+## Contributing
+Contributions are not being accepted at this time.
