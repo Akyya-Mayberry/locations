@@ -45,7 +45,7 @@ class App extends React.Component {
                 this.cacheLocalStores(this.stores);
             }).catch((e) => {
                 // throw new Error('failed to fetch stores!!!!');
-                this.setState({hasErrors: true});
+                this.setState({ hasErrors: true });
                 console.log('error fetching store data: ', e);
             });
         }
@@ -102,42 +102,38 @@ class App extends React.Component {
             return <p className='error-boundary'>Unable to fetch stores.</p>;
         } else {
             return (
-
                 <div className='app-container'>
 
                     {/* Hamburger Menu Button */}
                     <Hamburger
+                        isSideMenuOpen={this.state.isSideMenuOpen}
                         openSideMenu={this.openSideMenu} />
-
                     {/* Slideout Side Menu Section */}
                     {this.state.isSideMenuOpen
                         && <div
                             id='sidebar-section'
-                            className='sidebar-section'>
+                            className={this.state.isSideMenuOpen ? `sidebar-section is-active` : `sidebar-section`}>
                             <div className='sidebar-items'>
-                                <header>Store List</header>
+                                <header className='store-list-header' tabIndex={-1}>Store List</header>
                                 <hr />
 
                                 {/* Filter Store  */}
-                                <ErrorBoundary>
-
-                                    <select
-                                        value={this.state.selectedStoreId}
-                                        className='store-filter'
-                                        onChange={(evt) => this.filterStores(Number(evt.target.value))}>
-                                        <option value={0}>-- all --</option>
-                                        {this.stores.map((store: any) => {
-                                            return (<option
-                                                className='store-option'
-                                                key={store.id}
-                                                value={store.id}>{store.name}</option>);
-                                        })}
-                                    </select>
-                                </ErrorBoundary>
+                                <select
+                                    value={this.state.selectedStoreId}
+                                    className='store-filter'
+                                    onChange={(evt) => this.filterStores(Number(evt.target.value))}>
+                                    <option value={0}>-- all --</option>
+                                    {this.stores.map((store: any) => {
+                                        return (<option
+                                            className='store-option'
+                                            key={store.id}
+                                            value={store.id}>{store.name}</option>);
+                                    })}
+                                </select>
 
                                 {/* List of Stores */}
-                                <ErrorBoundary>
 
+                                <ErrorBoundary>
                                     <StoreList
                                         selectStore={this.filterStores}
                                         stores={this.stores}

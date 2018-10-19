@@ -10,8 +10,9 @@ export interface IProps {
 
 const StoreList: React.SFC<IProps> = (props: IProps) => {
     return (
-        <div className='store-list-container'>
-            <ul className='store-list'>
+        <nav aria-labelledby='filtered-stores' className='store-list-container' id='store-list-nav'>
+            <h2 id='filtered-stores'>Stores</h2>
+            <ul aria-expanded={true} role='menu' className='store-list'>
                 {props.stores.map((store: any, index: number) => {
                     return (
                         <li
@@ -23,7 +24,7 @@ const StoreList: React.SFC<IProps> = (props: IProps) => {
                     );
                 })}
             </ul>
-        </div>
+        </nav>
     );
 };
 
