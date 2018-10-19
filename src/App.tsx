@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import { yelpSearchFull } from './clients/Yelp';
+import ErrorBoundary from './components/ErrorBoundary';
 import Hamburger from './components/Hamburger';
 import Map from './components/Map';
 import StoreList from './components/StoreList';
@@ -12,11 +13,12 @@ class App extends React.Component {
     public state: any = {
         stores: [FogStores],
         selectedStoreId: null,
-        isSideMenuOpen: false
+        isSideMenuOpen: false,
+        hasErrors: false
     };
 
     public async componentDidMount() {
-        
+
         // Grab stores from local storage if present
         // else check cached storage
         const cachedStores = this.getCachedLocalStores();
@@ -42,6 +44,8 @@ class App extends React.Component {
                 this.setState({ stores: this.stores });
                 this.cacheLocalStores(this.stores);
             }).catch((e) => {
+                // throw new Error('failed to fetch stores!!!!');
+                this.setState({ hasErrors: true });
                 console.log('error fetching store data: ', e);
             });
         }
@@ -90,78 +94,78 @@ class App extends React.Component {
     }
 
     public openSideMenu = () => {
-        // const toggle = document.querySelector('#toggle');
-        // const menu = document.querySelector('#sidebar-section');
-
-        // if (menu!.classList.contains('is-active')) {
-        //     toggle!.setAttribute('aria-expanded', 'false');
-        //     menu!.classList.remove('is-active');
-        //   } else {
-        //     menu!.classList.add('is-active'); 
-        //     toggle!.setAttribute('aria-expanded', 'true');
-        //   }
         this.setState({ isSideMenuOpen: !this.state.isSideMenuOpen });
     }
 
     public render() {
-        return (
-            <div className='app-container'>
+        if (this.state.hasErrors) {
+            return <p className='error-boundary'>Unable to fetch stores.</p>;
+        } else {
+            return (
+                <div className='app-container'>
 
-                {/* Hamburger Menu Button */}
-                <Hamburger
-                    isSideMenuOpen={this.state.isSideMenuOpen}
-                    openSideMenu={this.openSideMenu}  />
+                    {/* Hamburger Menu Button */}
+                    <Hamburger
+                        isSideMenuOpen={this.state.isSideMenuOpen}
+                        openSideMenu={this.openSideMenu} />
 
-                {/* Slideout Side Menu Section */}
-                {this.state.isSideMenuOpen
-                    && <div
-                        id='sidebar-section'
-                        className={this.state.isSideMenuOpen ? `sidebar-section is-active`: `sidebar-section`}>
-                        <div className='sidebar-items'>
-                            <header className='store-list-header' tabIndex={-1}>Store List</header>
-                            <hr />
+                    {/* Slideout Side Menu Section */}
+                    {this.state.isSideMenuOpen
+                        && <div
+                            id='sidebar-section'
+                            className={this.state.isSideMenuOpen ? `sidebar-section is-active` : `sidebar-section`}>
+                            <div className='sidebar-items'>
+                                <header className='store-list-header' tabIndex={-1}>Store List</header>
+                                <hr />
 
-                            {/* Filter Store  */}
-                            <select
-                                value={this.state.selectedStoreId}
-                                className='store-filter'
-                                onChange={(evt) => this.filterStores(Number(evt.target.value))}>
-                                <option value={0}>-- all --</option>
-                                {this.stores.map((store: any) => {
-                                    return (<option
-                                        className='store-option'
-                                        key={store.id}
-                                        value={store.id}>{store.name}</option>);
-                                })}
-                            </select>
+                                {/* Filter Store  */}
+                                <select
+                                    value={this.state.selectedStoreId}
+                                    className='store-filter'
+                                    onChange={(evt) => this.filterStores(Number(evt.target.value))}>
+                                    <option value={0}>-- all --</option>
+                                    {this.stores.map((store: any) => {
+                                        return (<option
+                                            className='store-option'
+                                            key={store.id}
+                                            value={store.id}>{store.name}</option>);
+                                    })}
+                                </select>
 
-                            {/* List of Stores */}
-                            <StoreList
-                                selectStore={this.filterStores}
-                                stores={this.stores}
-                            />
+                                {/* List of Stores */}
+
+                                <ErrorBoundary>
+                                    <StoreList
+                                        selectStore={this.filterStores}
+                                        stores={this.stores}
+                                    />
+                                </ErrorBoundary>
+
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
 
-                {/* Map Section */}
-                <Map
-                    googleMapURL={`
+                    {/* Map Section */}
+                    <ErrorBoundary>
+                        <Map
+                            googleMapURL={`
                     https://maps.googleapis.com/maps/api/js?
                     key=AIzaSyDzYuNeeymGaSyKN6z1wtIpgZDpgq-ckTc
                     &v=3.exp&libraries=geometry,drawing,places`
-                    }
-                    loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
-                    stores={this.stores}
-                    selectedStoreId={this.state.selectedStoreId}
-                    selectMarker={this.selectMarker}
-                    deselectMarker={this.deselectMarker}
-                />
+                            }
+                            loadingElement={<div style={{ height: `100%` }} />}
+                            containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
+                            mapElement={<div style={{ height: `100%` }} />}
+                            stores={this.stores}
+                            selectedStoreId={this.state.selectedStoreId}
+                            selectMarker={this.selectMarker}
+                            deselectMarker={this.deselectMarker}
+                        />
+                    </ErrorBoundary>
 
-            </div>
-        );
+                </div>
+            );
+        }
     }
 }
 

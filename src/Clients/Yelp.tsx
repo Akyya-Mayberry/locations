@@ -22,7 +22,7 @@ const yelpSearch = async (store: IFogStore) => {
 const yelpSearchFull = async(id: string) => {
 
     // TODO: Setup caching
-
+    // throw new Error('failed to fetch stores!!!!');
     const headers = new Headers({
         'Authorization': `Bearer ${YELP_API_KEY}`,
     });
