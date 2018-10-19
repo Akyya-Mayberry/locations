@@ -24,7 +24,6 @@ class App extends React.Component {
         const cachedStores = this.getCachedLocalStores();
 
         if (cachedStores) {
-            console.log('stores are cached: ', cachedStores);
             this.stores = cachedStores;
             this.setState({ stores: cachedStores });
         } else {
@@ -44,25 +43,43 @@ class App extends React.Component {
                 this.setState({ stores: this.stores });
                 this.cacheLocalStores(this.stores);
             }).catch((e) => {
-                // throw new Error('failed to fetch stores!!!!');
+                // Update UI with issues fetching stores
                 this.setState({ hasErrors: true });
                 console.log('error fetching store data: ', e);
             });
         }
     }
 
+    /**
+     * Fetch full details for a store (name, address, hours of operation, pics)
+     * @param {IFogStore} store - location to get details for
+     */
     public async getFullDetails(store: IFogStore) {
         return await yelpSearchFull(store.yelpId);
     }
 
+    /**
+     * Updates state to currently selected store based on marker
+     * @param {number} id - id of store reference by the marker
+     * @returns void
+     */
     public selectMarker = (id: number) => {
         this.setState({ selectedStoreId: id });
     }
 
+    /**
+     * Updates state to reset selected store
+     * @returns void
+     */
     public deselectMarker = () => {
         this.setState({ stores: this.stores, selectedStoreId: 0 });
     }
 
+    /**
+     * Filter store list based on a store id
+     * @param {number} id - store id to find
+     * @returns void
+     */
     public filterStores = (id: number) => {
         let filteredStores;
 
@@ -82,6 +99,10 @@ class App extends React.Component {
         );
     }
 
+    /**
+     * Retrieves stores from local web storage
+     * @returns IFogStore[] if stores exist or null
+     */
     public getCachedLocalStores = () => {
         const stores = localStorage.getItem('stores');
         if (!stores) { return null; }
@@ -89,6 +110,11 @@ class App extends React.Component {
         return JSON.parse(stores) as IFogStore[];
     }
 
+    /**
+     * Stores a list of stores in local web storage
+     * @param {IFogStore[]} stores - list of stores
+     * @returns void
+     */
     public cacheLocalStores = (stores: IFogStore[]) => {
         localStorage.setItem('stores', JSON.stringify(stores));
     }
@@ -108,7 +134,9 @@ class App extends React.Component {
                     <Hamburger
                         isSideMenuOpen={this.state.isSideMenuOpen}
                         openSideMenu={this.openSideMenu} />
+
                     {/* Slideout Side Menu Section */}
+                    {/* TODO: move to a sidebar component */}
                     {this.state.isSideMenuOpen
                         && <div
                             id='sidebar-section'
@@ -117,7 +145,8 @@ class App extends React.Component {
                                 <header className='store-list-header' tabIndex={-1}>Store List</header>
                                 <hr />
 
-                                {/* Filter Store  */}
+                                {/* Filter Stores  */}
+
                                 <select
                                     value={this.state.selectedStoreId}
                                     className='store-filter'
@@ -145,6 +174,7 @@ class App extends React.Component {
                     }
 
                     {/* Map Section */}
+
                     <ErrorBoundary>
                         <Map
                             googleMapURL={`
