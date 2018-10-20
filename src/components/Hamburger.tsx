@@ -13,7 +13,7 @@ const Hamburger: React.SFC<IProps> = (props: IProps) => {
             id='toggle'
             aria-label='Open Side Menu'>
             <i className='fas fa-bars' />
-            Surf
+            MunchieSurf
         </button>
     );
 };

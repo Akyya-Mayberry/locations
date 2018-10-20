@@ -3,15 +3,18 @@ This application displays a list of 5 liqour store locations in Haight Ashbury w
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). It uses [react-google-maps](https://github.com/tomchentw/react-google-maps) library for integrating with Google Maps, and [Yelp Fusion API](https://www.yelp.com/fusion) for retrieving details about store locations. To work solely client-side with Yelp Fusion API, a free web proxy located at 'https://cors-anywhere.herokuapp.com', is being used.
 
-The application is written in Typescript and uses jsx, so various source files you will notice have a .tsx exetension to reflect this.
-
 ## Getting Started
 The below instructions will walk you through setting up and running this application.
 
 For the project to build, **these files must exist with exact filenames**:
 
 * `public/index.html` is the page template;
-* `src/index.js` is the JavaScript entry point.
+* `src/index.tsx` is the JavaScript entry point.
+
+The application is written in Typescript and uses jsx, so various source files you will notice have a .tsx exetension to reflect this.
+
+1. Clone the repository and change into it's directory
+2. Grab the dependecies by running ```npm install```
 
 
 ## Available Scripts
