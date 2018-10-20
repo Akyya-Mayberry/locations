@@ -4,8 +4,9 @@
 
 .toggle-side-menu {
     position: fixed;
-    top: 10px;
+    top: 75px;
     left: 10px;
+    float: left;
     z-index: 20;
     background-color: #fff;
     color: #666;
@@ -15,6 +16,7 @@
     padding: 8px;
     border-radius: 1%;
     font-size: 1em;
+    border: thin #666 solid;
 }
 
 .fas.fa-bars {
@@ -22,4 +24,10 @@
     color: #666;
     text-align: center;
     padding-right: 5px;
+}
+
+@media screen and (min-width: 800px) {
+    .toggle-side-menu {
+        top: 85px;
+    }
 }

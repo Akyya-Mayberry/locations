@@ -20,6 +20,7 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
             return (
                 <ErrorBoundary key={store.id}>
                 <Marker
+                    title={`Marker associated with ${store.name} on the map`}
                     onClick={() => props.selectMarker(Number(store.id))}
                     key={store.id}
                     position={store.coordinates}

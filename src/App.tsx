@@ -129,11 +129,13 @@ class App extends React.Component {
         } else {
             return (
                 <div className='app-container'>
-
                     {/* Hamburger Menu Button */}
-                    <Hamburger
-                        isSideMenuOpen={this.state.isSideMenuOpen}
-                        openSideMenu={this.openSideMenu} />
+                    <nav role='navigation'>
+                        <header className='main-title'>Munchie Surfing</header>
+                        <Hamburger
+                            isSideMenuOpen={this.state.isSideMenuOpen}
+                            openSideMenu={this.openSideMenu} />
+                    </nav>
 
                     {/* Slideout Side Menu Section */}
                     {/* TODO: move to a sidebar component */}

@@ -27,7 +27,7 @@ const FogStores: IFogStore[] = [
     {
         id: 2,
         yelpId: 'NFPBhI-qvm-qqxbRppAReA',
-        name: 'Val de Cole Liquor FogStore',
+        name: 'Val de Cole Liquor',
         address: '906 Cole St',
         city: 'San Francisco',
         state: 'CA',

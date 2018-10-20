@@ -42,12 +42,20 @@ select {
     background-color: transparent;
 }
 
+header.main-title {
+    color: #666;
+    margin: 10px auto;
+    text-align: center;
+    z-index: 50;
+    width: 100%;
+}
+
 .sidebar-section {
     height: 100%;
     width: 80vw;
     position: fixed;
     z-index: 10;
-    top: 50px;
+    top: 140px;
     left: 0;
     text-align: center;
     background-color: rgba(200, 200, 133, 0.5);
@@ -77,4 +85,26 @@ select {
     height: 100vh;
     max-width: 100vh;
     z-index: -1;
+}
+
+@media screen and (min-width: 401px) {
+    .sidebar-section {
+        width: 60vw;
+        top: 80px;
+        top: 140px;
+    }
+}
+
+@media screen and (min-width: 630px) {
+    .sidebar-section {
+        width: 50vw;
+        top: 140px;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .sidebar-section {
+        width: 400px;
+        top: 150px;
+    }
 }

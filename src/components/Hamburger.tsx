@@ -11,11 +11,9 @@ const Hamburger: React.SFC<IProps> = (props: IProps) => {
         <button onClick={() => props.openSideMenu()}
             className='toggle-side-menu'
             id='toggle'
-            aria-expanded={props.isSideMenuOpen}
-            aria-controls='sidebar-section'
             aria-label='Open Side Menu'>
             <i className='fas fa-bars' />
-            MunchySurf
+            Surf
         </button>
     );
 };
