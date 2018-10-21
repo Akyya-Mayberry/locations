@@ -14,3 +14,14 @@
 .map-store-details {
     float: right;
 }
+
+a.yelp-link {
+    display: block;
+    margin: 0 auto;
+    text-align: right;
+}
+
+.yelp-logo {
+    width: 45px;
+    height: 45px;
+}

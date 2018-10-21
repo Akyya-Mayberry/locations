@@ -19,34 +19,40 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
         {props.stores.map((store: IFogStore) => {
             return (
                 <ErrorBoundary key={store.id}>
-                <Marker
-                    title={`Marker associated with ${store.name} on the map`}
-                    onClick={() => props.selectMarker(Number(store.id))}
-                    key={store.id}
-                    position={store.coordinates}
-                    defaultAnimation={google.maps.Animation.DROP}
-                    animation={props.selectedStoreId === null
-                        ? google.maps.Animation.DROP
-                        : props.selectedStoreId === store.id 
-                        ? google.maps.Animation.BOUNCE : undefined}>
-                    {
-                        props.selectedStoreId === store.id &&
-                        <InfoWindow onCloseClick={() => props.deselectMarker()}>
-                            <div className='info-window'>
-                                <p>{store.name}</p>
-                                <img
-                                    className='map-store-image'
-                                    src={store.details.image_url}
-                                    alt={`Image of liqour store '${store.name}'`} />
-                                <ul className='map-store-details'>
-                                    <li>Phone: {store.details.phone}</li>
-                                    {store.details.is_closed
-                                        && <li>Open: {store.details.is_closed}</li>}
-                                </ul>
-                            </div>
-                        </InfoWindow>
-                    }
-                </Marker>
+                    <Marker
+                        title={`Marker associated with ${store.name} on the map`}
+                        onClick={() => props.selectMarker(Number(store.id))}
+                        key={store.id}
+                        position={store.coordinates}
+                        defaultAnimation={google.maps.Animation.DROP}
+                        animation={props.selectedStoreId === null
+                            ? google.maps.Animation.DROP
+                            : props.selectedStoreId === store.id
+                                ? google.maps.Animation.BOUNCE : undefined}>
+                        {
+                            props.selectedStoreId === store.id &&
+                            <InfoWindow onCloseClick={() => props.deselectMarker()}>
+                                <div className='info-window'>
+                                    <p>{store.name}</p>
+                                    <img
+                                        className='map-store-image'
+                                        src={store.details.image_url}
+                                        alt={`Image of liqour store '${store.name}'`} />
+
+                                    <ul className='map-store-details'>
+                                        <li>Phone: {store.details.phone}</li>
+                                        {store.details.is_closed
+                                            && <li>Open: {store.details.is_closed}</li>}
+                                    </ul>
+                                    <a className='yelp-link'><img
+                                        className='yelp-logo'
+                                        src='./Yelp_trademark_RGB.png'
+                                        alt={'Image of yelp logo'} />
+                                    </a>
+                                </div>
+                            </InfoWindow>
+                        }
+                    </Marker>
                 </ErrorBoundary>
             );
         })}
