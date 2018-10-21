@@ -6,6 +6,7 @@ import './Map.css';
 
 
 export interface IProps {
+    gotStoreData: boolean;
     stores: IFogStore[];
     selectedStoreId: number;
     selectMarker: (id: number) => void;
@@ -16,13 +17,13 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
     <GoogleMap
         defaultZoom={13}
         defaultCenter={{ lat: 37.764438, lng: -122.452312 }}>
-        {props.stores.map((store: IFogStore) => {
+        {props.stores.map((store: IFogStore, index: number) => {
             return (
-                <ErrorBoundary key={store.id}>
+                <ErrorBoundary key={store.yelpId}>
                     <Marker
                         title={`Marker associated with ${store.name} on the map`}
                         onClick={() => props.selectMarker(Number(store.id))}
-                        key={store.id}
+                        key={index}
                         position={store.coordinates}
                         defaultAnimation={google.maps.Animation.DROP}
                         animation={props.selectedStoreId === null
@@ -30,7 +31,7 @@ const Map = withScriptjs(withGoogleMap((props: IProps) =>
                             : props.selectedStoreId === store.id
                                 ? google.maps.Animation.BOUNCE : undefined}>
                         {
-                            props.selectedStoreId === store.id &&
+                            props.selectedStoreId === store.id && props.gotStoreData &&
                             <InfoWindow onCloseClick={() => props.deselectMarker()}>
                                 <div className='info-window'>
                                     <p>{store.name}</p>

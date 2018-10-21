@@ -87,6 +87,20 @@ header.main-title {
     z-index: -1;
 }
 
+.yelp-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(200, 200, 133, 0.5);
+    text-align: center;
+    border: none;
+    font-size: 1em;
+    z-index: 39;
+    color: #fff;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+}
+
 @media screen and (min-width: 401px) {
     .sidebar-section {
         width: 60vw;

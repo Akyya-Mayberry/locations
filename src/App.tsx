@@ -14,7 +14,8 @@ class App extends React.Component {
         stores: [FogStores],
         selectedStoreId: null,
         isSideMenuOpen: false,
-        hasErrors: false
+        hasErrors: false, 
+        gotStoreData: null
     };
 
     public async componentDidMount() {
@@ -25,7 +26,7 @@ class App extends React.Component {
 
         if (cachedStores) {
             this.stores = cachedStores;
-            this.setState({ stores: cachedStores });
+            this.setState({ stores: cachedStores, gotStoreData: true });
         } else {
 
             // Get full store details for info windows
@@ -40,12 +41,13 @@ class App extends React.Component {
                     store.details = rsp[index];
                     return store;
                 });
-                this.setState({ stores: this.stores });
+                this.setState({ stores: this.stores, gotStoreData: true });
                 this.cacheLocalStores(this.stores);
             }).catch((e) => {
                 // Update UI with issues fetching stores
-                this.setState({ hasErrors: true });
                 console.log('error fetching store data: ', e);
+                this.stores = FogStores;
+                this.setState({ hasErrors: true, stores: this.stores, gotStoreData: false });
             });
         }
     }
@@ -125,80 +127,91 @@ class App extends React.Component {
     }
 
     public render() {
-        if (this.state.hasErrors) {
-            return <p className='error-boundary'>Unable to fetch stores.</p>;
-        } else {
-            return (
-                <div className='app-container'>
-                    {/* Hamburger Menu Button */}
-                    <nav role='navigation'>
-                        <header className='main-title'>Munchie Surfing</header>
-                        <Hamburger
-                            isSideMenuOpen={this.state.isSideMenuOpen}
-                            openSideMenu={this.openSideMenu} />
-                    </nav>
+        // if (this.state.hasErrors) {
+        //     return <p className='error-boundary'>Unable to fetch stores.</p>;
+        // } else {
+        return (
+            <div className='app-container'>
+                {/* Hamburger Menu Button */}
+                <nav role='navigation'>
+                    <header className='main-title'>Munchie Surfing</header>
+                    <Hamburger
+                        isSideMenuOpen={this.state.isSideMenuOpen}
+                        openSideMenu={this.openSideMenu} />
+                </nav>
 
-                    {/* Slideout Side Menu Section */}
-                    {/* TODO: move to a sidebar component */}
-                    {this.state.isSideMenuOpen
-                        && <div
-                            id='sidebar-section'
-                            className={this.state.isSideMenuOpen ? `sidebar-section is-active` : `sidebar-section`}>
-                            <div className='sidebar-items'>
-                                <header className='store-list-header' tabIndex={-1}>Store List</header>
-                                <hr />
+                {/* Slideout Side Menu Section */}
+                {/* TODO: move to a sidebar component */}
+                {this.state.isSideMenuOpen
+                    && <div
+                        id='sidebar-section'
+                        className={this.state.isSideMenuOpen ? `sidebar-section is-active` : `sidebar-section`}>
+                        <div className='sidebar-items'>
+                            <header className='store-list-header' tabIndex={-1}>Store List</header>
+                            <hr />
 
-                                {/* Filter Stores  */}
+                            {/* Filter Stores  */}
 
-                                <select
-                                    value={this.state.selectedStoreId}
-                                    className='store-filter'
-                                    onChange={(evt) => this.filterStores(Number(evt.target.value))}>
-                                    <option value={0}>-- all --</option>
-                                    {this.stores.map((store: any) => {
-                                        return (<option
-                                            className='store-option'
-                                            key={store.id}
-                                            value={store.id}>{store.name}</option>);
-                                    })}
-                                </select>
+                            <select
+                                value={this.state.selectedStoreId}
+                                className='store-filter'
+                                onChange={(evt) => this.filterStores(Number(evt.target.value))}>
+                                <option value={0}>-- all --</option>
+                                {this.stores.map((store: any) => {
+                                    return (<option
+                                        className='store-option'
+                                        key={store.id}
+                                        value={store.id}>{store.name}</option>);
+                                })}
+                            </select>
 
-                                {/* List of Stores */}
+                            {/* List of Stores */}
 
-                                <ErrorBoundary>
-                                    <StoreList
-                                        selectStore={this.filterStores}
-                                        stores={this.state.stores}
-                                        selectedStoreId={this.state.selectedStoreId}
-                                    />
-                                </ErrorBoundary>
+                            <ErrorBoundary>
+                                <StoreList
+                                    selectStore={this.filterStores}
+                                    stores={this.state.stores}
+                                    selectedStoreId={this.state.selectedStoreId}
+                                />
+                            </ErrorBoundary>
 
-                            </div>
                         </div>
-                    }
+                    </div>
+                }
 
-                    {/* Map Section */}
+                {this.state.hasErrors &&
+                    <p className='yelp-error'>
+                    <a className='yelp-link'><img
+                        className='yelp-logo'
+                        src='./Yelp_trademark_RGB.png'
+                        alt={'Image of yelp logo'} />
+                        Yikes! Unable to fetch store data from Yelp.
+                    </a>
+                    </p>}
 
-                    <ErrorBoundary>
-                        <Map
-                            googleMapURL={`
+                {/* Map Section */}
+
+                <ErrorBoundary>
+                    <Map
+                        googleMapURL={`
                     https://maps.googleapis.com/maps/api/js?
                     key=AIzaSyDzYuNeeymGaSyKN6z1wtIpgZDpgq-ckTc
                     &v=3.exp&libraries=geometry,drawing,places`
-                            }
-                            loadingElement={<div style={{ height: `100%` }} />}
-                            containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
-                            mapElement={<div style={{ height: `100%` }} />}
-                            stores={this.state.stores}
-                            selectedStoreId={this.state.selectedStoreId}
-                            selectMarker={this.selectMarker}
-                            deselectMarker={this.deselectMarker}
-                        />
-                    </ErrorBoundary>
+                        }
+                        loadingElement={<div style={{ height: `100%` }} />}
+                        containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
+                        mapElement={<div style={{ height: `100%` }} />}
+                        stores={this.state.stores}
+                        selectedStoreId={this.state.selectedStoreId}
+                        selectMarker={this.selectMarker}
+                        deselectMarker={this.deselectMarker}
+                        gotStoreData={this.state.gotStoreData}
+                    />
+                </ErrorBoundary>
 
-                </div>
-            );
-        }
+            </div>
+        );
+        // }
     }
 }
 
