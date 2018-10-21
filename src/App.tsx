@@ -64,6 +64,7 @@ class App extends React.Component {
      * @returns void
      */
     public selectMarker = (id: number) => {
+        this.filterStores(id);
         this.setState({ selectedStoreId: id });
     }
 
@@ -167,7 +168,8 @@ class App extends React.Component {
                                 <ErrorBoundary>
                                     <StoreList
                                         selectStore={this.filterStores}
-                                        stores={this.stores}
+                                        stores={this.state.stores}
+                                        selectedStoreId={this.state.selectedStoreId}
                                     />
                                 </ErrorBoundary>
 
@@ -187,7 +189,7 @@ class App extends React.Component {
                             loadingElement={<div style={{ height: `100%` }} />}
                             containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
                             mapElement={<div style={{ height: `100%` }} />}
-                            stores={this.stores}
+                            stores={this.state.stores}
                             selectedStoreId={this.state.selectedStoreId}
                             selectMarker={this.selectMarker}
                             deselectMarker={this.deselectMarker}
