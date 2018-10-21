@@ -5,14 +5,25 @@ import './StoreList.css';
 
 export interface IProps {
     stores: IFogStore[];
+    selectedStoreId: number;
     selectStore: (id: number) => void;
 }
 
 const StoreList: React.SFC<IProps> = (props: IProps) => {
+    let filteredStores;
+    
+    if (props.selectedStoreId) {
+       filteredStores = props.stores.filter((store: any) => {
+        return store.id === props.selectedStoreId;
+        });
+    } else {
+        filteredStores = props.stores;
+    }
+
     return (
         <nav aria-labelledby='filtered-stores' className='store-list-container' id='store-list-nav'>
             <ul id='filtered-stores' aria-expanded={true} role='menu' className='store-list'>
-                {props.stores.map((store: any, index: number) => {
+                {filteredStores.map((store: any, index: number) => {
                     return (
                         <li
                             key={index}
