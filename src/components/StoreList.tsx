@@ -26,7 +26,7 @@ const StoreList: React.SFC<IProps> = (props: IProps) => {
                 {filteredStores.map((store: any, index: number) => {
                     return (
                         <li
-                            key={index}
+                            key={store.yelpId}
                             className='store'
                             onClick={() => props.selectStore(Number(store.id))}>
                             <Store store={store} />
