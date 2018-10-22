@@ -26,6 +26,7 @@ class App extends React.Component {
 
         if (cachedStores) {
             this.stores = cachedStores;
+            console.log('store hours: ', cachedStores[0].details.hours);
             this.setState({ stores: cachedStores, gotStoreData: true });
         } else {
 
@@ -41,6 +42,8 @@ class App extends React.Component {
                     store.details = rsp[index];
                     return store;
                 });
+                console.log('store hours: ', this.stores[0].details.hours[0].is_open_now);
+
                 this.setState({ stores: this.stores, gotStoreData: true });
                 this.cacheLocalStores(this.stores);
             }).catch((e) => {
