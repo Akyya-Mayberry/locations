@@ -7,6 +7,10 @@ import Map from './components/Map';
 import StoreList from './components/StoreList';
 import { FogStores, IFogStore } from './StoreData';
 
+// window.onerror = (message: any, url: any, line: any) => {
+//     console.log(`Error written to console: message - ${message}; url - ${url}; line ${line}`);
+// };
+
 class App extends React.Component {
 
     public stores: IFogStore[] = [];
@@ -130,11 +134,9 @@ class App extends React.Component {
     }
 
     public render() {
-        // if (this.state.hasErrors) {
-        //     return <p className='error-boundary'>Unable to fetch stores.</p>;
-        // } else {
         return (
             <div className='app-container'>
+
                 {/* Hamburger Menu Button */}
                 <nav role='navigation'>
                     <header className='main-title'>Munchie Surfing</header>
@@ -182,6 +184,7 @@ class App extends React.Component {
                     </div>
                 }
 
+                {/* Yelp API Error View */}
                 {this.state.hasErrors &&
                     <p className='yelp-error'>
                     <a className='yelp-link'><img
@@ -197,10 +200,9 @@ class App extends React.Component {
                 <ErrorBoundary>
                     <Map
                         googleMapURL={`
-                    https://maps.googleapis.com/maps/api/js?
-                    key=AIzaSyDzYuNeeymGaSyKN6z1wtIpgZDpgq-ckTc
-                    &v=3.exp&libraries=geometry,drawing,places`
-                        }
+                        https://maps.googleapis.com/maps/api/js?
+                        key=AIzaSyDzYuNeeymGaSyKN6z1wtIpgZDpgq-ckTc
+                        &v=3.exp&libraries=geometry,drawing,places`}
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ width: '100vw', height: `100vh` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
@@ -214,7 +216,6 @@ class App extends React.Component {
 
             </div>
         );
-        // }
     }
 }
 
