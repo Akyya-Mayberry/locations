@@ -44,6 +44,9 @@ Your app is ready to be deployed!
 
 See the section about [deployment](#deployment) for more information.
 
+## Service Worker For Offline Access: 
+*This application offers a limited offline experience by use of a service worker in both development and production. Both uses the service-worker-dev.js worker located in the public folder at the root of the project. To disable the worker, comment out the registration code in index.tsx. Alternatively, to run the service worker only in development or production make changes the registerServiceWorker.js file.*
+
 ## Supported Browsers
 
 By default, the generated project uses the latest version of React.
